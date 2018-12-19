@@ -8,7 +8,7 @@
           @beforeScroll="listScroll"
   >
     <ul class="suggest-list">
-      <li @click="selectItem(item)" class="suggest-item" v-for="item in newSongsList">
+      <li @click="selectItem(item)" class="suggest-item" v-for="item in result">
         <div class="icon">
           <i :class="getIconCls(item)"></i>
         </div>
@@ -18,7 +18,7 @@
       </li>
       <loading v-show="hasMore" title=""></loading>
     </ul>
-    <div v-show="!hasMore && !newSongsList.length" class="no-result-wrapper">
+    <div v-show="!hasMore && !result.length" class="no-result-wrapper">
       <no-result title="抱歉，暂无搜索结果"></no-result>
     </div>
   </scroll>
@@ -72,10 +72,12 @@
         this.page = 1
         this.hasMore = true
         this.$refs.suggest.scrollTo(0, 0)
+        this.newSongsList = []
         search(this.query, this.page, this.showSinger, perpage).then((res) => {
           if (res.code === ERR_OK) {
-            this.result = this._genResult(res.data)
-            // console.log(res.data)
+            this._genResult(res.data)
+            this.result = this.newSongsList
+            console.log(this.result)
             this._checkMore(res.data)
           }
         })
@@ -87,12 +89,13 @@
         }
         if (data.song) {
           this._normalizeSongs(data.song.list)
-          console.log(this.newSongsList)
+          //console.log(this.newSongsList)
           ret = ret.concat(this.newSongsList)
         }
         return ret
       },
       _normalizeSongs(list) {
+       // let ret = []
         list.forEach((musicData) => {
           if (musicData.songid && musicData.albummid) {
             getVkey(musicData.songmid).then(res => {
