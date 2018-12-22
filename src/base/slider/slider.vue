@@ -80,7 +80,7 @@
         this.slider = new BScroll(this.$refs.slider, {
           scrollX: true,
           scrollY: false,
-          momentum: false,
+          momentum: false,// 惯性
           snap: true,
           snapLoop: this.loop,
           snapThreshold: 0.3,
