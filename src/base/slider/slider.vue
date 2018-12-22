@@ -27,7 +27,7 @@
       },
       interval: {
         type: Number,
-        default: 2000
+        default: 4000
       }
     },
     data() {
@@ -61,7 +61,7 @@
     methods: {
       _setSliderWidth(isResize) {
         this.children = this.$refs.sliderGroup.children
-        //console.log(this.children.length)
+
         let width = 0
         let sliderWidth = this.$refs.slider.clientWidth
         for (let i = 0; i < this.children.length; i++) {
